@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Моя страница</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .hint {
+            opacity: 0.6;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="myAudio" loop>
+        <source src="sound.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="hint" id="hint">Загрузка звука...</div>
+
+    <script>
+        const audio = document.getElementById('myAudio');
+        const hint = document.getElementById('hint');
+
+        // Пытаемся включить звук сразу
+        function tryPlay() {
+            audio.play().then(() => {
+                hint.textContent = '🔊 Звук играет';
+                hint.style.opacity = '0.3';
+            }).catch(() => {
+                // Браузер заблокировал автоплей — ждём клика
+                hint.textContent = '🔈 Нажмите в любом месте, чтобы включить звук';
+                document.body.addEventListener('click', startOnClick, { once: true });
+                document.body.addEventListener('touchstart', startOnClick, { once: true });
+            });
+        }
+
+        function startOnClick() {
+            audio.play();
+            hint.textContent = '🔊 Звук играет';
+            hint.style.opacity = '0.3';
+        }
+
+        tryPlay();
+    </script>
+
+</body>
+</html>
